@@ -1,10 +1,12 @@
-extension W3C_JSON_LD.Value {
+import W3C
+
+extension W3C.JSON_LD.Value {
 
     func expanded(
-        in active: W3C_JSON_LD.Context.Active,
-        term: W3C_JSON_LD.Context.Term?,
-        loader: W3C_JSON_LD.Context.Loader
-    ) throws(W3C_JSON_LD.Error) -> Self {
+        in active: W3C.JSON_LD.Context.Active,
+        term: W3C.JSON_LD.Context.Term?,
+        loader: W3C.JSON_LD.Context.Loader
+    ) throws(W3C.JSON_LD.Error) -> Self {
         switch self {
         case .node(let node):
             return .node(try node.expanded(in: active, loader: loader))
@@ -43,7 +45,7 @@ extension W3C_JSON_LD.Value {
         }
     }
 
-    func compacted(to active: W3C_JSON_LD.Context.Active) -> Self {
+    func compacted(to active: W3C.JSON_LD.Context.Active) -> Self {
         switch self {
         case .node(let node):
             return .node(node.compacted(to: active))

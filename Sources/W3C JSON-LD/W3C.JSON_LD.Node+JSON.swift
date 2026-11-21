@@ -1,6 +1,8 @@
-extension W3C_JSON_LD.Node {
+public import W3C
 
-    static func nodes(_ value: RFC_8259.Value) throws(W3C_JSON_LD.Error) -> [Self] {
+extension W3C.JSON_LD.Node {
+
+    static func nodes(_ value: RFC_8259.Value) throws(W3C.JSON_LD.Error) -> [Self] {
         switch value {
         case .null:
             return []
@@ -43,12 +45,12 @@ extension W3C_JSON_LD.Node {
         return .object(RFC_8259.Object(members))
     }
 
-    public init(_ object: RFC_8259.Object) throws(W3C_JSON_LD.Error) {
+    public init(_ object: RFC_8259.Object) throws(W3C.JSON_LD.Error) {
         self.init()
         for (key, value) in object {
             switch key {
             case "@context":
-                context = try W3C_JSON_LD.Context(value)
+                context = try W3C.JSON_LD.Context(value)
 
             case "@id":
                 guard case .string(let id) = value else { throw .keyword("@id") }
@@ -69,14 +71,14 @@ extension W3C_JSON_LD.Node {
                     throw .keyword("@type")
                 }
 
-            case _ where W3C_JSON_LD.isKeyword(key):
+            case _ where W3C.JSON_LD.isKeyword(key):
                 throw .unsupported(key)
 
-            case _ where W3C_JSON_LD.looksLikeKeyword(key):
+            case _ where W3C.JSON_LD.looksLikeKeyword(key):
                 continue
 
             default:
-                self[key] += try W3C_JSON_LD.Value.values(value)
+                self[key] += try W3C.JSON_LD.Value.values(value)
             }
         }
     }

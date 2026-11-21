@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Literal {
+public import W3C
+
+extension W3C.JSON_LD.Literal {
 
     public var value: RFC_8259.Value {
         let scalar: RFC_8259.Value =
@@ -21,7 +23,7 @@ extension W3C_JSON_LD.Literal {
         return .object(RFC_8259.Object(members))
     }
 
-    init?(_ object: RFC_8259.Object) throws(W3C_JSON_LD.Error) {
+    init?(_ object: RFC_8259.Object) throws(W3C.JSON_LD.Error) {
         let scalar: Scalar
         switch object["@value"] {
         case .null, .none:
@@ -49,7 +51,7 @@ extension W3C_JSON_LD.Literal {
                 self.type = type
 
             case ("@language", .string(let language)):
-                self.language = try W3C_JSON_LD.Context.tag(language)
+                self.language = try W3C.JSON_LD.Context.tag(language)
 
             case ("@direction", .string(let direction)):
                 guard let direction = Direction(direction) else { throw .keyword("@direction") }

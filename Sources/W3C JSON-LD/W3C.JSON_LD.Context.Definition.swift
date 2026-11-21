@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Context {
+public import W3C
+
+extension W3C.JSON_LD.Context {
 
     public struct Definition: Sendable, Hashable {
 

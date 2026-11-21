@@ -1,4 +1,6 @@
-extension W3C_JSON_LD {
+public import W3C
+
+extension W3C.JSON_LD {
 
     public enum Error: Swift.Error, Sendable, Equatable {
 

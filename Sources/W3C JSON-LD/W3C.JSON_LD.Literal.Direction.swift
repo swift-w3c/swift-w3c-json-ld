@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Literal {
+public import W3C
+
+extension W3C.JSON_LD.Literal {
 
     public enum Direction: Sendable, Hashable {
 
@@ -8,7 +10,7 @@ extension W3C_JSON_LD.Literal {
     }
 }
 
-extension W3C_JSON_LD.Literal.Direction {
+extension W3C.JSON_LD.Literal.Direction {
 
     public init?(_ text: String) {
         switch text {

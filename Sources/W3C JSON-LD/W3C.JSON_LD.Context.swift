@@ -1,4 +1,6 @@
-extension W3C_JSON_LD {
+public import W3C
+
+extension W3C.JSON_LD {
 
     public indirect enum Context: Sendable, Hashable {
 
@@ -12,7 +14,7 @@ extension W3C_JSON_LD {
     }
 }
 
-extension W3C_JSON_LD.Context {
+extension W3C.JSON_LD.Context {
 
     public static func vocabulary(_ iri: String) -> Self {
         .definition(Definition(vocabulary: iri))

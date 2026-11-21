@@ -1,4 +1,6 @@
-extension W3C_JSON_LD {
+public import W3C
+
+extension W3C.JSON_LD {
 
     public struct Document: Sendable, Hashable {
 
@@ -13,23 +15,23 @@ extension W3C_JSON_LD {
     }
 }
 
-extension W3C_JSON_LD.Document {
+extension W3C.JSON_LD.Document {
 
-    public init(_ node: W3C_JSON_LD.Node, context: W3C_JSON_LD.Context? = nil) {
+    public init(_ node: W3C.JSON_LD.Node, context: W3C.JSON_LD.Context? = nil) {
         self.init(context: context, body: .node(node))
     }
 
-    public init(graph nodes: [W3C_JSON_LD.Node], context: W3C_JSON_LD.Context? = nil) {
+    public init(graph nodes: [W3C.JSON_LD.Node], context: W3C.JSON_LD.Context? = nil) {
         self.init(context: context, body: .graph(nodes))
     }
 
-    public init<Value: W3C_JSON_LD.Representable>(_ value: Value) {
+    public init<Value: W3C.JSON_LD.Representable>(_ value: Value) {
         self.init(value.node, context: Value.context)
     }
 
-    public init<each Value: W3C_JSON_LD.Representable>(graph values: repeat each Value) {
-        var contexts: [W3C_JSON_LD.Context] = []
-        var nodes: [W3C_JSON_LD.Node] = []
+    public init<each Value: W3C.JSON_LD.Representable>(graph values: repeat each Value) {
+        var contexts: [W3C.JSON_LD.Context] = []
+        var nodes: [W3C.JSON_LD.Node] = []
         for value in repeat each values {
             contexts.append(type(of: value).context)
             nodes.append(value.node)
@@ -45,17 +47,17 @@ extension W3C_JSON_LD.Document {
     }
 }
 
-extension W3C_JSON_LD.Document {
+extension W3C.JSON_LD.Document {
 
-    public var nodes: [W3C_JSON_LD.Node] {
+    public var nodes: [W3C.JSON_LD.Node] {
         switch body {
         case .node(let node): [node]
         case .graph(let nodes): nodes
         }
     }
 
-    public func expanded(loader: W3C_JSON_LD.Context.Loader = .none) throws(W3C_JSON_LD.Error) -> Self {
-        var active = W3C_JSON_LD.Context.Active()
+    public func expanded(loader: W3C.JSON_LD.Context.Loader = .none) throws(W3C.JSON_LD.Error) -> Self {
+        var active = W3C.JSON_LD.Context.Active()
         if let context {
             active = try active.applying(context, loader: loader)
         }
@@ -64,7 +66,7 @@ extension W3C_JSON_LD.Document {
             return Self(try node.expanded(in: active, loader: loader))
 
         case .graph(let nodes):
-            var expanded: [W3C_JSON_LD.Node] = []
+            var expanded: [W3C.JSON_LD.Node] = []
             for node in nodes {
                 expanded.append(try node.expanded(in: active, loader: loader))
             }
@@ -73,11 +75,11 @@ extension W3C_JSON_LD.Document {
     }
 
     public func compacted(
-        to context: W3C_JSON_LD.Context,
-        loader: W3C_JSON_LD.Context.Loader = .none
-    ) throws(W3C_JSON_LD.Error) -> Self {
+        to context: W3C.JSON_LD.Context,
+        loader: W3C.JSON_LD.Context.Loader = .none
+    ) throws(W3C.JSON_LD.Error) -> Self {
         let expanded = try expanded(loader: loader)
-        let active = try W3C_JSON_LD.Context.Active().applying(context, loader: loader)
+        let active = try W3C.JSON_LD.Context.Active().applying(context, loader: loader)
         switch expanded.body {
         case .node(let node):
             return Self(node.compacted(to: active), context: context)

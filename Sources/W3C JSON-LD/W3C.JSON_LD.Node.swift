@@ -1,4 +1,6 @@
-extension W3C_JSON_LD {
+public import W3C
+
+extension W3C.JSON_LD {
 
     public struct Node: Sendable, Hashable {
 
@@ -24,9 +26,9 @@ extension W3C_JSON_LD {
     }
 }
 
-extension W3C_JSON_LD.Node {
+extension W3C.JSON_LD.Node {
 
-    public subscript(key: String) -> [W3C_JSON_LD.Value] {
+    public subscript(key: String) -> [W3C.JSON_LD.Value] {
         get {
             properties.first { $0.key == key }?.values ?? []
         }

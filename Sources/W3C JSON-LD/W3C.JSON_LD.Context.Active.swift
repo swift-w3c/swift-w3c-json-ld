@@ -1,6 +1,7 @@
 import RFC_3986
+public import W3C
 
-extension W3C_JSON_LD.Context {
+extension W3C.JSON_LD.Context {
 
     public struct Active: Sendable, Hashable {
 
@@ -21,23 +22,23 @@ extension W3C_JSON_LD.Context {
     }
 }
 
-extension W3C_JSON_LD.Context.Active {
+extension W3C.JSON_LD.Context.Active {
 
     static let limit = 32
 
     public func applying(
-        _ context: W3C_JSON_LD.Context,
-        loader: W3C_JSON_LD.Context.Loader = .none
-    ) throws(W3C_JSON_LD.Error) -> Self {
+        _ context: W3C.JSON_LD.Context,
+        loader: W3C.JSON_LD.Context.Loader = .none
+    ) throws(W3C.JSON_LD.Error) -> Self {
         var visited: [String] = []
         return try applying(context, loader: loader, visited: &visited)
     }
 
     func applying(
-        _ context: W3C_JSON_LD.Context,
-        loader: W3C_JSON_LD.Context.Loader,
+        _ context: W3C.JSON_LD.Context,
+        loader: W3C.JSON_LD.Context.Loader,
         visited: inout [String]
-    ) throws(W3C_JSON_LD.Error) -> Self {
+    ) throws(W3C.JSON_LD.Error) -> Self {
         switch context {
         case .null:
             return Self(base: base)
@@ -65,7 +66,7 @@ extension W3C_JSON_LD.Context.Active {
         }
     }
 
-    func applying(_ definition: W3C_JSON_LD.Context.Definition) throws(W3C_JSON_LD.Error) -> Self {
+    func applying(_ definition: W3C.JSON_LD.Context.Definition) throws(W3C.JSON_LD.Error) -> Self {
         var result = self
         if let base = definition.base {
             result.base = resolve(base)
@@ -76,7 +77,7 @@ extension W3C_JSON_LD.Context.Active {
         if let language = definition.language {
             result.language = language
         }
-        var local: [String: W3C_JSON_LD.Context.Term] = [:]
+        var local: [String: W3C.JSON_LD.Context.Term] = [:]
         for term in definition.terms {
             local[term.name] = term
         }
@@ -90,10 +91,10 @@ extension W3C_JSON_LD.Context.Active {
 
     mutating func define(
         _ name: String,
-        local: [String: W3C_JSON_LD.Context.Term],
+        local: [String: W3C.JSON_LD.Context.Term],
         defined: inout Set<String>,
         defining: inout Set<String>
-    ) throws(W3C_JSON_LD.Error) {
+    ) throws(W3C.JSON_LD.Error) {
         guard !defined.contains(name), let term = local[name] else { return }
         guard !defining.contains(name) else { throw .recursion(name) }
         defining.insert(name)
@@ -101,7 +102,7 @@ extension W3C_JSON_LD.Context.Active {
         let isNull = term.id == nil && term.type == nil && term.container == nil && term.language == nil
         if !isNull {
             let source = term.id ?? name
-            if W3C_JSON_LD.isKeyword(source) {
+            if W3C.JSON_LD.isKeyword(source) {
                 resolved.id = source
             } else if let colon = source.firstIndex(of: ":") {
                 let prefix = String(source[..<colon])
@@ -122,7 +123,7 @@ extension W3C_JSON_LD.Context.Active {
             } else {
                 resolved.id = source
             }
-            if let type = term.type, !W3C_JSON_LD.isKeyword(type) {
+            if let type = term.type, !W3C.JSON_LD.isKeyword(type) {
                 resolved.type = expand(type, at: .vocabulary) ?? type
             }
         }
@@ -132,12 +133,12 @@ extension W3C_JSON_LD.Context.Active {
     }
 }
 
-extension W3C_JSON_LD.Context.Active {
+extension W3C.JSON_LD.Context.Active {
 
-    public func expand(_ value: String, at position: W3C_JSON_LD.Context.Position) -> String? {
+    public func expand(_ value: String, at position: W3C.JSON_LD.Context.Position) -> String? {
         let isVocabulary = position == .vocabulary
-        if W3C_JSON_LD.isKeyword(value) { return value }
-        if W3C_JSON_LD.looksLikeKeyword(value) { return nil }
+        if W3C.JSON_LD.isKeyword(value) { return value }
+        if W3C.JSON_LD.looksLikeKeyword(value) { return nil }
         if isVocabulary, let term = terms[value] {
             return term.id
         }
@@ -148,7 +149,7 @@ extension W3C_JSON_LD.Context.Active {
             if let term = terms[prefix], term.isPrefix, let iri = term.id {
                 return iri + suffix
             }
-            if W3C_JSON_LD.isAbsolute(value) { return value }
+            if W3C.JSON_LD.isAbsolute(value) { return value }
         }
         if isVocabulary, let vocabulary {
             return vocabulary + value
@@ -160,7 +161,7 @@ extension W3C_JSON_LD.Context.Active {
     }
 
     func resolve(_ value: String) -> String {
-        guard !W3C_JSON_LD.isAbsolute(value), let base else { return value }
+        guard !W3C.JSON_LD.isAbsolute(value), let base else { return value }
         do throws(RFC_3986.Error) {
             return try RFC_3986.URI(base).resolve(value).value
         } catch {
@@ -169,22 +170,22 @@ extension W3C_JSON_LD.Context.Active {
     }
 }
 
-extension W3C_JSON_LD.Context.Active {
+extension W3C.JSON_LD.Context.Active {
 
-    public func compact(_ iri: String, at position: W3C_JSON_LD.Context.Position) -> String {
+    public func compact(_ iri: String, at position: W3C.JSON_LD.Context.Position) -> String {
         let isVocabulary = position == .vocabulary
         if isVocabulary {
             let matches = terms.filter { $0.value.id == iri }.map(\.key)
             if let best = matches.min(by: Self.shorter) {
                 return best
             }
-            if W3C_JSON_LD.isKeyword(iri) { return iri }
+            if W3C.JSON_LD.isKeyword(iri) { return iri }
             if let vocabulary, iri.hasPrefix(vocabulary), iri.count > vocabulary.count {
                 let suffix = String(iri.dropFirst(vocabulary.count))
                 if terms[suffix] == nil { return suffix }
             }
         }
-        if W3C_JSON_LD.isKeyword(iri) { return iri }
+        if W3C.JSON_LD.isKeyword(iri) { return iri }
         var candidates: [String] = []
         for (name, term) in terms where term.isPrefix {
             guard let id = term.id, iri.hasPrefix(id), iri.count > id.count else { continue }

@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Context.Term {
+public import W3C
+
+extension W3C.JSON_LD.Context.Term {
 
     public var value: RFC_8259.Value {
         if isSimple, let id {
@@ -24,7 +26,7 @@ extension W3C_JSON_LD.Context.Term {
         return .object(RFC_8259.Object(members))
     }
 
-    init(_ name: String, _ value: RFC_8259.Value) throws(W3C_JSON_LD.Error) {
+    init(_ name: String, _ value: RFC_8259.Value) throws(W3C.JSON_LD.Error) {
         switch value {
         case .null:
             self.init(name, id: nil)
@@ -46,7 +48,7 @@ extension W3C_JSON_LD.Context.Term {
                     self.container = container
 
                 case ("@language", .string(let language)):
-                    self.language = try W3C_JSON_LD.Context.tag(language)
+                    self.language = try W3C.JSON_LD.Context.tag(language)
 
                 case ("@prefix", .bool(let prefix)):
                     self.prefix = prefix

@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Context {
+public import W3C
+
+extension W3C.JSON_LD.Context {
 
     public struct Term: Sendable, Hashable {
 
@@ -32,7 +34,7 @@ extension W3C_JSON_LD.Context {
     }
 }
 
-extension W3C_JSON_LD.Context.Term {
+extension W3C.JSON_LD.Context.Term {
 
     public var isSimple: Bool {
         id != nil && type == nil && container == nil && language == nil && prefix == nil
@@ -41,7 +43,7 @@ extension W3C_JSON_LD.Context.Term {
     public var isPrefix: Bool {
         if let prefix { return prefix && id != nil }
         guard isSimple, let last = id?.last else { return false }
-        return W3C_JSON_LD.Context.Term.delimiters.contains(last)
+        return W3C.JSON_LD.Context.Term.delimiters.contains(last)
     }
 
     static let delimiters: Set<Character> = [":", "/", "?", "#", "[", "]", "@"]

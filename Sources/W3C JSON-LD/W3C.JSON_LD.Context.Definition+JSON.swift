@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Context.Definition {
+public import W3C
+
+extension W3C.JSON_LD.Context.Definition {
 
     public var value: RFC_8259.Value {
         var members: [(key: String, value: RFC_8259.Value)] = []
@@ -17,7 +19,7 @@ extension W3C_JSON_LD.Context.Definition {
         return .object(RFC_8259.Object(members))
     }
 
-    init(_ object: RFC_8259.Object) throws(W3C_JSON_LD.Error) {
+    init(_ object: RFC_8259.Object) throws(W3C.JSON_LD.Error) {
         self.init()
         for (key, value) in object {
             switch (key, value) {
@@ -28,7 +30,7 @@ extension W3C_JSON_LD.Context.Definition {
                 self.vocabulary = vocabulary
 
             case ("@language", .string(let language)):
-                self.language = try W3C_JSON_LD.Context.tag(language)
+                self.language = try W3C.JSON_LD.Context.tag(language)
 
             case ("@version", .number(let version)) where version.double == 1.1:
                 continue
@@ -36,11 +38,11 @@ extension W3C_JSON_LD.Context.Definition {
             case ("@base", _), ("@vocab", _), ("@language", _), ("@version", _):
                 throw .keyword(key)
 
-            case _ where W3C_JSON_LD.isKeyword(key):
+            case _ where W3C.JSON_LD.isKeyword(key):
                 throw .unsupported(key)
 
             default:
-                terms.append(try W3C_JSON_LD.Context.Term(key, value))
+                terms.append(try W3C.JSON_LD.Context.Term(key, value))
             }
         }
     }

@@ -1,4 +1,6 @@
-extension W3C_JSON_LD {
+public import W3C
+
+extension W3C.JSON_LD {
 
     public struct Literal: Sendable, Hashable {
 
@@ -24,7 +26,7 @@ extension W3C_JSON_LD {
     }
 }
 
-extension W3C_JSON_LD.Literal {
+extension W3C.JSON_LD.Literal {
 
     public var isPlain: Bool {
         type == nil && language == nil && direction == nil

@@ -15,6 +15,7 @@ let package = Package(
         .library(name: "W3C JSON-LD", targets: ["W3C JSON-LD"])
     ],
     dependencies: [
+        .package(url: "https://github.com/swift-w3c/swift-w3c.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-8259.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-3986.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5646.git", branch: "main"),
@@ -23,6 +24,7 @@ let package = Package(
         .target(
             name: "W3C JSON-LD",
             dependencies: [
+                .product(name: "W3C", package: "swift-w3c"),
                 .product(name: "RFC 8259", package: "swift-rfc-8259"),
                 .product(name: "RFC 3986", package: "swift-rfc-3986"),
                 .product(name: "RFC 5646", package: "swift-rfc-5646"),

@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Literal {
+public import W3C
+
+extension W3C.JSON_LD.Literal {
 
     public enum Scalar: Sendable, Hashable {
 

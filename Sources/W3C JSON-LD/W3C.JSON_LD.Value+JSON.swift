@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Value {
+public import W3C
+
+extension W3C.JSON_LD.Value {
 
     public var value: RFC_8259.Value {
         switch self {
@@ -13,7 +15,7 @@ extension W3C_JSON_LD.Value {
         }
     }
 
-    static func values(_ value: RFC_8259.Value) throws(W3C_JSON_LD.Error) -> [Self] {
+    static func values(_ value: RFC_8259.Value) throws(W3C.JSON_LD.Error) -> [Self] {
         switch value {
         case .null:
             return []
@@ -25,7 +27,7 @@ extension W3C_JSON_LD.Value {
             return [.number(number)]
 
         case .bool(let bool):
-            return [.literal(W3C_JSON_LD.Literal(.bool(bool)))]
+            return [.literal(W3C.JSON_LD.Literal(.bool(bool)))]
 
         case .array(let array):
             var values: [Self] = []
@@ -37,7 +39,7 @@ extension W3C_JSON_LD.Value {
         case .object(let object):
             let keys = Set(object.keys)
             if keys.contains("@value") {
-                guard let literal = try W3C_JSON_LD.Literal(object) else { return [] }
+                guard let literal = try W3C.JSON_LD.Literal(object) else { return [] }
                 return [.literal(literal)]
             }
             if keys.contains("@list") {
@@ -48,7 +50,7 @@ extension W3C_JSON_LD.Value {
                 guard keys == ["@set"] else { throw .keyword("@set") }
                 return try Self.values(object["@set"] ?? .null)
             }
-            return [.node(try W3C_JSON_LD.Node(object))]
+            return [.node(try W3C.JSON_LD.Node(object))]
         }
     }
 }

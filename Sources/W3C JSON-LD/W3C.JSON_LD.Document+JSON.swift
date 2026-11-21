@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Document {
+public import W3C
+
+extension W3C.JSON_LD.Document {
 
     public var bytes: [UInt8] {
         RFC_8259.Encode.encode(value)
@@ -31,9 +33,9 @@ extension W3C_JSON_LD.Document {
     }
 }
 
-extension W3C_JSON_LD.Document {
+extension W3C.JSON_LD.Document {
 
-    public init<Bytes: Swift.Collection<UInt8>>(parsing bytes: Bytes) throws(W3C_JSON_LD.Error) {
+    public init<Bytes: Swift.Collection<UInt8>>(parsing bytes: Bytes) throws(W3C.JSON_LD.Error) {
         let value: RFC_8259.Value
         do throws(RFC_8259.Error) {
             value = try RFC_8259.Decode.parse(bytes.map { Byte(bitPattern: $0) })
@@ -43,7 +45,7 @@ extension W3C_JSON_LD.Document {
         try self.init(value)
     }
 
-    public init(_ value: RFC_8259.Value) throws(W3C_JSON_LD.Error) {
+    public init(_ value: RFC_8259.Value) throws(W3C.JSON_LD.Error) {
         switch value {
         case .object(let object):
             let keys = Set(object.keys)
@@ -51,20 +53,20 @@ extension W3C_JSON_LD.Document {
                 guard keys.isSubset(of: ["@context", "@graph"]) else {
                     throw .unsupported("@graph")
                 }
-                let context = try object["@context"].map(W3C_JSON_LD.Context.init)
-                let nodes = try W3C_JSON_LD.Node.nodes(object["@graph"] ?? .null)
+                let context = try object["@context"].map(W3C.JSON_LD.Context.init)
+                let nodes = try W3C.JSON_LD.Node.nodes(object["@graph"] ?? .null)
                 self.init(graph: nodes, context: context)
             } else {
-                var node = try W3C_JSON_LD.Node(object)
+                var node = try W3C.JSON_LD.Node(object)
                 let context = node.context
                 node.context = nil
                 self.init(node, context: context)
             }
 
         case .array(let array):
-            var nodes: [W3C_JSON_LD.Node] = []
+            var nodes: [W3C.JSON_LD.Node] = []
             for element in array {
-                nodes += try W3C_JSON_LD.Node.nodes(element)
+                nodes += try W3C.JSON_LD.Node.nodes(element)
             }
             self.init(graph: nodes)
 

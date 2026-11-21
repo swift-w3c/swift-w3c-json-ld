@@ -1,4 +1,6 @@
-extension W3C_JSON_LD.Context {
+public import W3C
+
+extension W3C.JSON_LD.Context {
 
     public var value: RFC_8259.Value {
         switch self {
@@ -16,7 +18,7 @@ extension W3C_JSON_LD.Context {
         }
     }
 
-    public init(_ value: RFC_8259.Value) throws(W3C_JSON_LD.Error) {
+    public init(_ value: RFC_8259.Value) throws(W3C.JSON_LD.Error) {
         switch value {
         case .null:
             self = .null
@@ -40,9 +42,9 @@ extension W3C_JSON_LD.Context {
     }
 }
 
-extension W3C_JSON_LD.Context {
+extension W3C.JSON_LD.Context {
 
-    static func tag(_ text: String) throws(W3C_JSON_LD.Error) -> RFC_5646.LanguageTag {
+    static func tag(_ text: String) throws(W3C.JSON_LD.Error) -> RFC_5646.LanguageTag {
         do throws(RFC_5646.Error) {
             return try RFC_5646.LanguageTag(text)
         } catch {

@@ -1,9 +1,11 @@
-extension W3C_JSON_LD.Node {
+public import W3C
+
+extension W3C.JSON_LD.Node {
 
     public func expanded(
-        in active: W3C_JSON_LD.Context.Active = W3C_JSON_LD.Context.Active(),
-        loader: W3C_JSON_LD.Context.Loader = .none
-    ) throws(W3C_JSON_LD.Error) -> Self {
+        in active: W3C.JSON_LD.Context.Active = W3C.JSON_LD.Context.Active(),
+        loader: W3C.JSON_LD.Context.Loader = .none
+    ) throws(W3C.JSON_LD.Error) -> Self {
         var active = active
         if let context {
             active = try active.applying(context, loader: loader)
@@ -30,8 +32,8 @@ extension W3C_JSON_LD.Node {
                 }
 
             default:
-                guard !W3C_JSON_LD.isKeyword(key), key.contains(":") else { continue }
-                var values: [W3C_JSON_LD.Value] = []
+                guard !W3C.JSON_LD.isKeyword(key), key.contains(":") else { continue }
+                var values: [W3C.JSON_LD.Value] = []
                 for value in property.values {
                     values.append(try value.expanded(in: active, term: term, loader: loader))
                 }
@@ -44,7 +46,7 @@ extension W3C_JSON_LD.Node {
         return result
     }
 
-    public func compacted(to active: W3C_JSON_LD.Context.Active) -> Self {
+    public func compacted(to active: W3C.JSON_LD.Context.Active) -> Self {
         var result = Self()
         result.id = id.map { active.compact($0, at: .document) }
         result.types = types.map { active.compact($0, at: .vocabulary) }
