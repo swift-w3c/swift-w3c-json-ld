@@ -8,14 +8,14 @@ extension W3C.JSON_LD {
 
         public var type: String?
 
-        public var language: RFC_5646.LanguageTag?
+        public var language: IETF.RFC.`5646`.LanguageTag?
 
         public var direction: Direction?
 
         public init(
             _ scalar: Scalar,
             type: String? = nil,
-            language: RFC_5646.LanguageTag? = nil,
+            language: IETF.RFC.`5646`.LanguageTag? = nil,
             direction: Direction? = nil
         ) {
             self.scalar = scalar
@@ -37,7 +37,7 @@ extension W3C.JSON_LD.Literal {
         return value
     }
 
-    public var number: RFC_8259.Number? {
+    public var number: IETF.RFC.`8259`.Number? {
         guard case .number(let value) = scalar else { return nil }
         return value
     }

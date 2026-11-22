@@ -3,10 +3,10 @@ public import W3C
 extension W3C.JSON_LD.Document {
 
     public var bytes: [UInt8] {
-        RFC_8259.Encode.encode(value)
+        IETF.RFC.`8259`.Encode.encode(value)
     }
 
-    public var value: RFC_8259.Value {
+    public var value: IETF.RFC.`8259`.Value {
         switch body {
         case .node(let node):
             var node = node
@@ -23,12 +23,12 @@ extension W3C.JSON_LD.Document {
             return node.value
 
         case .graph(let nodes):
-            var members: [(key: String, value: RFC_8259.Value)] = []
+            var members: [(key: String, value: IETF.RFC.`8259`.Value)] = []
             if let context {
                 members.append((key: "@context", value: context.value))
             }
-            members.append((key: "@graph", value: .array(RFC_8259.Array(nodes.map(\.value)))))
-            return .object(RFC_8259.Object(members))
+            members.append((key: "@graph", value: .array(IETF.RFC.`8259`.Array(nodes.map(\.value)))))
+            return .object(IETF.RFC.`8259`.Object(members))
         }
     }
 }
@@ -36,16 +36,16 @@ extension W3C.JSON_LD.Document {
 extension W3C.JSON_LD.Document {
 
     public init<Bytes: Swift.Collection<UInt8>>(parsing bytes: Bytes) throws(W3C.JSON_LD.Error) {
-        let value: RFC_8259.Value
-        do throws(RFC_8259.Error) {
-            value = try RFC_8259.Decode.parse(bytes.map { Byte(bitPattern: $0) })
+        let value: IETF.RFC.`8259`.Value
+        do throws(IETF.RFC.`8259`.Error) {
+            value = try IETF.RFC.`8259`.Decode.parse(bytes.map { Byte(bitPattern: $0) })
         } catch {
             throw .json(error)
         }
         try self.init(value)
     }
 
-    public init(_ value: RFC_8259.Value) throws(W3C.JSON_LD.Error) {
+    public init(_ value: IETF.RFC.`8259`.Value) throws(W3C.JSON_LD.Error) {
         switch value {
         case .object(let object):
             let keys = Set(object.keys)

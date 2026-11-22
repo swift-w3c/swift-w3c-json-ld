@@ -6,7 +6,7 @@ extension W3C.JSON_LD.Literal {
 
         case string(String)
 
-        case number(RFC_8259.Number)
+        case number(IETF.RFC.`8259`.Number)
 
         case bool(Bool)
     }

@@ -2,7 +2,7 @@ public import W3C
 
 extension W3C.JSON_LD.Value {
 
-    public var value: RFC_8259.Value {
+    public var value: IETF.RFC.`8259`.Value {
         switch self {
         case .literal(let literal):
             return literal.value
@@ -11,11 +11,11 @@ extension W3C.JSON_LD.Value {
             return node.value
 
         case .list(let values):
-            return .object(RFC_8259.Object([(key: "@list", value: .array(RFC_8259.Array(values.map(\.value))))]))
+            return .object(IETF.RFC.`8259`.Object([(key: "@list", value: .array(IETF.RFC.`8259`.Array(values.map(\.value))))]))
         }
     }
 
-    static func values(_ value: RFC_8259.Value) throws(W3C.JSON_LD.Error) -> [Self] {
+    static func values(_ value: IETF.RFC.`8259`.Value) throws(W3C.JSON_LD.Error) -> [Self] {
         switch value {
         case .null:
             return []

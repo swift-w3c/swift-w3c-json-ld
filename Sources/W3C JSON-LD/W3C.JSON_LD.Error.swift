@@ -4,7 +4,7 @@ extension W3C.JSON_LD {
 
     public enum Error: Swift.Error, Sendable, Equatable {
 
-        case json(RFC_8259.Error)
+        case json(IETF.RFC.`8259`.Error)
 
         case document
 

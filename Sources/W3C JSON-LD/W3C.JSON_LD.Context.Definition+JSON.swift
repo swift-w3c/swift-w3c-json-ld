@@ -2,8 +2,8 @@ public import W3C
 
 extension W3C.JSON_LD.Context.Definition {
 
-    public var value: RFC_8259.Value {
-        var members: [(key: String, value: RFC_8259.Value)] = []
+    public var value: IETF.RFC.`8259`.Value {
+        var members: [(key: String, value: IETF.RFC.`8259`.Value)] = []
         if let base {
             members.append((key: "@base", value: .string(base)))
         }
@@ -16,10 +16,10 @@ extension W3C.JSON_LD.Context.Definition {
         for term in terms {
             members.append((key: term.name, value: term.value))
         }
-        return .object(RFC_8259.Object(members))
+        return .object(IETF.RFC.`8259`.Object(members))
     }
 
-    init(_ object: RFC_8259.Object) throws(W3C.JSON_LD.Error) {
+    init(_ object: IETF.RFC.`8259`.Object) throws(W3C.JSON_LD.Error) {
         self.init()
         for (key, value) in object {
             switch (key, value) {

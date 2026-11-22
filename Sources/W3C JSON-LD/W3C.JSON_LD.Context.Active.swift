@@ -9,7 +9,7 @@ extension W3C.JSON_LD.Context {
 
         public var vocabulary: String?
 
-        public var language: RFC_5646.LanguageTag?
+        public var language: IETF.RFC.`5646`.LanguageTag?
 
         public var terms: [String: Term]
 
@@ -162,8 +162,8 @@ extension W3C.JSON_LD.Context.Active {
 
     func resolve(_ value: String) -> String {
         guard !W3C.JSON_LD.isAbsolute(value), let base else { return value }
-        do throws(RFC_3986.Error) {
-            return try RFC_3986.URI(base).resolve(value).value
+        do throws(IETF.RFC.`3986`.Error) {
+            return try IETF.RFC.`3986`.URI(base).resolve(value).value
         } catch {
             return value
         }

@@ -2,11 +2,11 @@ public import W3C
 
 extension W3C.JSON_LD.Context.Term {
 
-    public var value: RFC_8259.Value {
+    public var value: IETF.RFC.`8259`.Value {
         if isSimple, let id {
             return .string(id)
         }
-        var members: [(key: String, value: RFC_8259.Value)] = []
+        var members: [(key: String, value: IETF.RFC.`8259`.Value)] = []
         if let id {
             members.append((key: "@id", value: .string(id)))
         }
@@ -23,10 +23,10 @@ extension W3C.JSON_LD.Context.Term {
             members.append((key: "@prefix", value: .bool(prefix)))
         }
         guard !members.isEmpty else { return .null }
-        return .object(RFC_8259.Object(members))
+        return .object(IETF.RFC.`8259`.Object(members))
     }
 
-    init(_ name: String, _ value: RFC_8259.Value) throws(W3C.JSON_LD.Error) {
+    init(_ name: String, _ value: IETF.RFC.`8259`.Value) throws(W3C.JSON_LD.Error) {
         switch value {
         case .null:
             self.init(name, id: nil)

@@ -12,7 +12,7 @@ extension W3C.JSON_LD.Context {
 
         public var container: String?
 
-        public var language: RFC_5646.LanguageTag?
+        public var language: IETF.RFC.`5646`.LanguageTag?
 
         public var prefix: Bool?
 
@@ -21,7 +21,7 @@ extension W3C.JSON_LD.Context {
             id: String?,
             type: String? = nil,
             container: String? = nil,
-            language: RFC_5646.LanguageTag? = nil,
+            language: IETF.RFC.`5646`.LanguageTag? = nil,
             prefix: Bool? = nil
         ) {
             self.name = name

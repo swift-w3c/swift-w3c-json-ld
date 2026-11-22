@@ -2,7 +2,7 @@ public import W3C
 
 extension W3C.JSON_LD.Node {
 
-    static func nodes(_ value: RFC_8259.Value) throws(W3C.JSON_LD.Error) -> [Self] {
+    static func nodes(_ value: IETF.RFC.`8259`.Value) throws(W3C.JSON_LD.Error) -> [Self] {
         switch value {
         case .null:
             return []
@@ -22,8 +22,8 @@ extension W3C.JSON_LD.Node {
         }
     }
 
-    public var value: RFC_8259.Value {
-        var members: [(key: String, value: RFC_8259.Value)] = []
+    public var value: IETF.RFC.`8259`.Value {
+        var members: [(key: String, value: IETF.RFC.`8259`.Value)] = []
         if let context {
             members.append((key: "@context", value: context.value))
         }
@@ -33,19 +33,19 @@ extension W3C.JSON_LD.Node {
         if types.count == 1, let type = types.first {
             members.append((key: "@type", value: .string(type)))
         } else if !types.isEmpty {
-            members.append((key: "@type", value: .array(RFC_8259.Array(types.map { .string($0) }))))
+            members.append((key: "@type", value: .array(IETF.RFC.`8259`.Array(types.map { .string($0) }))))
         }
         for property in properties where !property.values.isEmpty {
             if property.values.count == 1, let value = property.values.first {
                 members.append((key: property.key, value: value.value))
             } else {
-                members.append((key: property.key, value: .array(RFC_8259.Array(property.values.map(\.value)))))
+                members.append((key: property.key, value: .array(IETF.RFC.`8259`.Array(property.values.map(\.value)))))
             }
         }
-        return .object(RFC_8259.Object(members))
+        return .object(IETF.RFC.`8259`.Object(members))
     }
 
-    public init(_ object: RFC_8259.Object) throws(W3C.JSON_LD.Error) {
+    public init(_ object: IETF.RFC.`8259`.Object) throws(W3C.JSON_LD.Error) {
         self.init()
         for (key, value) in object {
             switch key {

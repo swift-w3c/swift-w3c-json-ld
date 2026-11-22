@@ -18,7 +18,7 @@ extension W3C.JSON_LD.Value {
         .literal(W3C.JSON_LD.Literal(.string(value)))
     }
 
-    public static func number(_ value: RFC_8259.Number) -> Self {
+    public static func number(_ value: IETF.RFC.`8259`.Number) -> Self {
         .literal(W3C.JSON_LD.Literal(.number(value)))
     }
 
