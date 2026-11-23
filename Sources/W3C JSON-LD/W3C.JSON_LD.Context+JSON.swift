@@ -44,9 +44,9 @@ extension W3C.JSON_LD.Context {
 
 extension W3C.JSON_LD.Context {
 
-    static func tag(_ text: String) throws(W3C.JSON_LD.Error) -> IETF.RFC.`5646`.LanguageTag {
+    static func tag(_ text: String) throws(W3C.JSON_LD.Error) -> IETF.RFC.`5646`.Tag {
         do throws(IETF.RFC.`5646`.Error) {
-            return try IETF.RFC.`5646`.LanguageTag(text)
+            return try IETF.RFC.`5646`.Tag(text)
         } catch {
             throw .keyword("@language")
         }

@@ -9,7 +9,7 @@ extension W3C.JSON_LD.Context {
 
         public var vocabulary: String?
 
-        public var language: IETF.RFC.`5646`.LanguageTag?
+        public var language: IETF.RFC.`5646`.Tag?
 
         public var terms: [String: Term]
 

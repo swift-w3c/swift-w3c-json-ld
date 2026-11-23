@@ -8,14 +8,14 @@ extension W3C.JSON_LD.Context {
 
         public var vocabulary: String?
 
-        public var language: IETF.RFC.`5646`.LanguageTag?
+        public var language: IETF.RFC.`5646`.Tag?
 
         public var terms: [Term]
 
         public init(
             base: String? = nil,
             vocabulary: String? = nil,
-            language: IETF.RFC.`5646`.LanguageTag? = nil,
+            language: IETF.RFC.`5646`.Tag? = nil,
             terms: [Term] = []
         ) {
             self.base = base

@@ -8,14 +8,14 @@ extension W3C.JSON_LD {
 
         public var type: String?
 
-        public var language: IETF.RFC.`5646`.LanguageTag?
+        public var language: IETF.RFC.`5646`.Tag?
 
         public var direction: Direction?
 
         public init(
             _ scalar: Scalar,
             type: String? = nil,
-            language: IETF.RFC.`5646`.LanguageTag? = nil,
+            language: IETF.RFC.`5646`.Tag? = nil,
             direction: Direction? = nil
         ) {
             self.scalar = scalar
